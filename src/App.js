@@ -1,54 +1,38 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import Login from './components/Login';
-import Home from './components/Home';
-import AdminPanel from './components/AdminPanel';
-import Forum from './components/Forum';
-import ChatAI from './components/ChatAI';
-import Gallery from './components/Gallery';
-import Sidebar from './components/Sidebar';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Container, Typography, Box } from '@mui/material';
+import { AuthProvider } from './contexts/AuthContext';  // Kalau AuthContext ada, biarin; kalau error nanti, comment dulu
 
-const darkTheme = createTheme({
+const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: { main: '#1976d2' },
-    background: { default: '#121212', paper: '#1e1e1e' },
+    background: { default: '#121212' },
   },
 });
 
-function PrivateRoute({ children }) {
-  const { currentUser } = useAuth();
-  return currentUser ? children : <Navigate to="/login" />;
-}
-
 function App() {
-  const [darkMode, setDarkMode] = useState(true);
-
-  const theme = createTheme({
-    palette: {
-      mode: darkMode ? 'dark' : 'light',
-      primary: { main: '#1976d2' },
-      background: { default: darkMode ? '#121212' : '#f4f4f4', paper: darkMode ? '#1e1e1e' : '#fff' },
-    },
-  });
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AuthProvider>
         <Router>
-          <Sidebar toggleDarkMode={() => setDarkMode(!darkMode)} darkMode={darkMode} />
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
-            <Route path="/admin" element={<PrivateRoute><AdminPanel /></PrivateRoute>} />
-            <Route path="/forum" element={<PrivateRoute><Forum /></PrivateRoute>} />
-            <Route path="/chat-ai" element={<PrivateRoute><ChatAI /></PrivateRoute>} />
-            <Route path="/gallery" element={<PrivateRoute><Gallery /></PrivateRoute>} />
-          </Routes>
+          <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+            <Typography variant="h2" color="primary" gutterBottom>
+              Website Kelas IX B
+            </Typography>
+            <Typography variant="h5" color="text.secondary">
+              Elegan, Serius, dan Keren
+            </Typography>
+            <Typography variant="body1" sx={{ mt: 4, maxWidth: '600px', textAlign: 'center' }}>
+              Struktur organisasi kelas, forum diskusi publik, gallery upload foto/video, dan chat AI dengan DeepSeek sedang dibangun.
+            </Typography>
+            <Typography variant="body2" sx={{ mt: 8, opacity: 0.6 }}>
+              Dibuat dengan ❤️ untuk kelas terbaik – 2025
+            </Typography>
+          </Box>
         </Router>
       </AuthProvider>
     </ThemeProvider>
